@@ -8,13 +8,19 @@
 #define DATA_SIZE 3
 #define NUM_RECORDS 100
 #define MAX_STRING_SIZE 100
+#define MAX 3
 
-typedef struct book {
-  int id;
-  char *title;
-  char *author;
-  struct book *next;
+typedef struct {
+    int id;
+    char* title;
+    char* author;
 } BookRecord;
+
+struct BTreeNode {
+    int count;
+    BookRecord books[MAX + 1];
+    struct BTreeNode* link[MAX + 1];
+};
 
 char *readString(char **element);
 char *typeofOperations(char *operations);
@@ -77,9 +83,8 @@ char *typeofOperations(char *operations) {
 void executeOperations(char **operations, char **data, int size) {
   for (int i = 0; i < size; i++) {
     if (strcmp(operations[i], "ADD") == 0) {
-      printf("adicionando autor\n");
       BookRecord book = extractData(data[i]);
-			//5The Diary of a Young Girl|Anne Frank#
+      //trecho para inserir na arvore B
       free(book.title);
       free(book.author);
     } else if (strcmp(operations[i], "SEARCH") == 0) {
